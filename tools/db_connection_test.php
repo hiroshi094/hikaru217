@@ -1,22 +1,29 @@
 <?php
     if (isset($_POST['submit'], $_POST['server_name'], $_POST['username'], $_POST['password'])) {
-        $DBSERVER = $_POST['server_name'];
+        $dbServer = $_POST['server_name'];
         $username = $_POST['username'];
         $password = $_POST['password'];
-        $DBNAME = $_POST['dbname'];
+        $dbName = $_POST['dbname'];
 
-        //$pdo = new PDO($dsn, $username, $password);
+        $dbConnectionString = 'mysql:dbname=' . $dbName . ';host=' . $dbServer . ';charset=utf8';
+        $pdo = new PDO($dbConnectionString, $username, $password);
         
-        $con = mysql_connect($DBSERVER, $username, $password);
-        mysql_select_db($DBNAME);
         $sql = "show tables;";
-        echo "<pre>";
-            $rst = mysql_query($sql);
-            //$row = mysql_fetch_row ($rst);
-            while ($row = mysql_fetch_array ($rst))
-            {
-                var_dump($row);  
-            }
+        $rows = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+        echo "<table><tr><th>#</th><th>table name</th>";
+        // $md = '#|table name' . "\n";
+        // $md .= '--:|---' . "\n";
+        $seq = 1;
+        foreach ($rows as $row) {
+            echo '<tr>';
+            echo '<td>' . $seq . '</td>';
+            echo '<td>' . htmlspecialchars(array_values($row)[0]) . '</td>';
+            echo '</tr>';
+            // $md .= $seq . '|' . htmlspecialchars(array_values($row)[0]) . "\n";
+            $seq++;
+        }
+        echo '</table>';
+        // echo $md;
         exit;
     }
 ?>
