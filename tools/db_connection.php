@@ -14,34 +14,34 @@ if (isset($_POST['submit'], $_POST['server_name'], $_POST['username'], $_POST['p
         header('Location: db_connection_test.php');
         exit();
     }
-    
+
     if ($pdo instanceof PDO) {
         echo "接続に成功しました";
         $dbConnection = new tools\DbConnection();
         $dbConnection->save(
-            $dbServer, 
-            $dbName, 
-            $username, 
+            $dbServer,
+            $dbName,
+            $username,
             $password
         );
     }
     exit;
 }
-$dbServer = ''; 
-$dbName   = ''; 
-$username = ''; 
+$dbServer = '';
+$dbName   = '';
+$username = '';
 $password = '';
 $dbConnection = new tools\DbConnection();
 $activeConnection = $dbConnection->getConnection();
 // var_dump($activeConnection);exit;
 if ($activeConnection !== false) {
-    $dbServer = $activeConnection[0]['dbServer']; 
-    $dbName   = $activeConnection[0]['dbName']; 
-    $username = $activeConnection[0]['username']; 
+    $dbServer = $activeConnection[0]['dbServer'];
+    $dbName   = $activeConnection[0]['dbName'];
+    $username = $activeConnection[0]['username'];
     $password = $activeConnection[0]['password'];
 }
 ?>
-<h1>データベース接続テスト</h1>
+<h1>データベース接続</h1>
 <form id="dbConnect" action="" method="POST">
 <table>
 <tr><th>server_name</th><td><input type="text" name="server_name" value="<?php echo $dbServer ?>" style="width:240px;"></td></tr>
