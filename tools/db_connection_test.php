@@ -34,7 +34,7 @@ $password = '';
 $dbConnection = new tools\DbConnection();
 $activeConnection = $dbConnection->getConnection();
 // var_dump($activeConnection);exit;
-if (empty($activeConnection) === false) {
+if ($activeConnection !== false) {
     $dbServer = $activeConnection[0]['dbServer']; 
     $dbName   = $activeConnection[0]['dbName']; 
     $username = $activeConnection[0]['username']; 

@@ -26,12 +26,15 @@ class DbConnection
             $this->dbConnectionList, 
             JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE
         );
-        file_put_contents('json/db_connections.json', $json);
+        file_put_contents('../json/db_connections.json', $json);
     }
 
     public function getConnection()
     {
-        $json = file_get_contents('json/db_connections.json');
-        return json_decode($json, true);
+        if (file_exists('json/db_connections.json')) {
+            $json = file_get_contents('json/db_connections.json');
+            return json_decode($json, true);
+        }
+        return false;
     }
 }
