@@ -37,12 +37,21 @@ class DbConnection
         return false;
     }
 
-    public function getTableInformation($schema)
+    public function getTableInformation()
     {
+        $pdo = new \PDO($this->dbConnectionString(), $this->userName, $this->password);
         $sql = 'SELECT TABLE_TYPE, TABLE_NAME, ENGINE, TABLE_COMMENT'
         . ' FROM INFORMATION_SCHEMA.TABLES'
-        . ' WHERE TABLE_SCHEMA=' . $schema
-        . ';';
+        . ' WHERE TABLE_SCHEMA=\'' . $this->dbName
+        . '\';';
+
+        $sqlResult = $pdo->query($sql);
+
+        $result = array();
+        while ($row = $sqlResult->fetch(\PDO::FETCH_ASSOC)) {
+            $result[] = $row;
+        }
+        return $result;
     }
 
     public function getDbServer()
@@ -53,6 +62,11 @@ class DbConnection
     public function getDbName()
     {
         return $this->dbName;
+    }
+
+    private function dbConnectionString()
+    {
+        return 'mysql:dbname=' . $this->dbName . ';host=' . $this->dbServer . ';charset=utf8';
     }
 
     public function getUserName()
@@ -75,7 +89,6 @@ class DbConnection
         }
 
         if ($pdo instanceof \PDO) {
-            //$dbConnection = new DbConnection();
             $dbConnectionList[] = array(
                 'dbServer' => $dbServer,
                 'dbName'   => $dbName,
