@@ -7,34 +7,88 @@ namespace tools;
  */
 class DbConnection
 {
-    /** @var array dbConnectionList */
-    protected $dbConnectionList = array();
+    /** @var string dbServer */
+    private $dbServer;
+    /** @var string dbName */
+    private $dbName;
+    /** @var string username */
+    private $userName;
+    /** @var string password */
+    private $password;
 
     public function __construct()
     {
+        if ($this->getConfig() === false) {
+            return false;
+        }
     }
 
-    public function save($dbServer, $dbName, $username, $password)
+    public function getConfig()
     {
-        $this->dbConnectionList[] = array(
-            'dbServer' => $dbServer, 
-            'dbName' => $dbName, 
-            'username' => $username, 
-            'password' => $password
-        );
-        $json = json_encode(
-            $this->dbConnectionList, 
-            JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE
-        );
-        file_put_contents('../json/db_connections.json', $json);
-    }
-
-    public function getConnection()
-    {
-        if (file_exists('json/db_connections.json')) {
-            $json = file_get_contents('json/db_connections.json');
-            return json_decode($json, true);
+        if (file_exists('../json/db_connections.json')) {
+            $json = file_get_contents('../json/db_connections.json');
+            $dbConnection = json_decode($json, true);
+            $this->dbServer = $dbConnection[0]['dbServer'];
+            $this->dbName   = $dbConnection[0]['dbName'];
+            $this->userName = $dbConnection[0]['username'];
+            $this->password = $dbConnection[0]['password'];
+            return true;
         }
         return false;
+    }
+
+    public function getTableInformation($schema)
+    {
+        $sql = 'SELECT TABLE_TYPE, TABLE_NAME, ENGINE, TABLE_COMMENT'
+        . ' FROM INFORMATION_SCHEMA.TABLES'
+        . ' WHERE TABLE_SCHEMA=' . $schema
+        . ';';
+    }
+
+    public function getDbServer()
+    {
+        return $this->dbServer;
+    }
+
+    public function getDbName()
+    {
+        return $this->dbName;
+    }
+
+    public function getUserName()
+    {
+        return $this->userName;
+    }
+
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    public static function saveConfig($dbServer, $dbName, $username, $password)
+    {
+        $dbConnectionString = 'mysql:dbname=' . $dbName . ';host=' . $dbServer . ';charset=utf8';
+        try {
+            $pdo = new \PDO($dbConnectionString, $username, $password);
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        if ($pdo instanceof \PDO) {
+            //$dbConnection = new DbConnection();
+            $dbConnectionList[] = array(
+                'dbServer' => $dbServer,
+                'dbName'   => $dbName,
+                'username' => $username,
+                'password' => $password
+            );
+            $json = json_encode(
+                $dbConnectionList,
+                JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE
+            );
+            file_put_contents('../json/db_connections.json', $json);
+        }
+        $dbConnection = new self();
+        return $dbConnection;
     }
 }
