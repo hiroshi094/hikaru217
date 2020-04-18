@@ -16,6 +16,7 @@ if (empty($tableInfo)) {
 ?>
 <?php include_once('components/common_header.php'); ?>
 <link rel="stylesheet" type="text/css" href="css/show_table.css?<?php echo date('YmdGis', filemtime('css/show_table.css')); ?>">
+<script src="js/show_tables.js"></script>
 <h1>テーブル一覧</h1>
 <div class="tableInfo">
     <table>
@@ -34,7 +35,10 @@ if (empty($tableInfo)) {
                     <td><?php echo $seq; ?></td>
                     <td><?php echo $table['TABLE_NAME']; ?></td>
                     <td><?php echo $table['TABLE_COMMENT']; ?></td>
-                    <td><i class="material-icons fsize20">edit</i><i class="material-icons fsize20">description</i></td>
+                    <td>
+                        <i class="material-icons fsize20 actUpdateComment">edit</i>
+                        <i class="material-icons fsize20">description</i>
+                    </td>
                 </tr>
                 <?php $seq++;?>
             <?php endforeach; ?>

@@ -25,8 +25,9 @@ class DbConnection
 
     public function getConfig()
     {
-        if (file_exists('../json/db_connections.json')) {
-            $json = file_get_contents('../json/db_connections.json');
+        $dbConfigFile = $_SERVER['DOCUMENT_ROOT'] . '/demo_yutenji' . '/json/db_connections.json';
+        if (file_exists($dbConfigFile)) {
+            $json = file_get_contents($dbConfigFile);
             $dbConnection = json_decode($json, true);
             $this->dbServer = $dbConnection[0]['dbServer'];
             $this->dbName   = $dbConnection[0]['dbName'];
@@ -37,6 +38,11 @@ class DbConnection
         return false;
     }
 
+    /**
+     * テーブル情報を返却する
+     *
+     * @return array
+     */
     public function getTableInformation()
     {
         $pdo = new \PDO($this->dbConnectionString(), $this->userName, $this->password);
@@ -51,6 +57,28 @@ class DbConnection
         while ($row = $sqlResult->fetch(\PDO::FETCH_ASSOC)) {
             $result[] = $row;
         }
+        return $result;
+    }
+
+    /**
+     * テーブルのコメントを更新する
+     *
+     * @param string $tableName
+     * @param string $tableComment
+     * @return boolean
+     */
+    public function updateTableComment(string $tableName, string $tableComment)
+    {
+        $pdo = new \PDO($this->dbConnectionString(), $this->userName, $this->password);
+        $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_SILENT);
+
+        $sql = 'SET sql_mode = \'\';';//SQL
+        $sql .= 'ALTER TABLE ' . $tableName . ' COMMENT \'' . $tableComment . '\';';
+        $command = $pdo->prepare($sql);
+        $result = $command->execute();
+
+        $pdo = null;
+        $command = null;
         return $result;
     }
 
