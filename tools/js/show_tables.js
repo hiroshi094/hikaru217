@@ -17,6 +17,12 @@ $(document).on('click', 'i.actUpdateComment', function(){
     }
 });
 
+$(document).on('click', 'i.actShowTableDetail', function(){
+    var tableName = $(this).closest('tr').find('td:eq(1)').html();
+    var url = 'show_table_Detail.php?table_name=' +  tableName;
+    window.open(url);
+});
+
 function makeInput(target) {
     var text =target.html();
     var inputHtml = '<input type="text" class="inputText" value="'

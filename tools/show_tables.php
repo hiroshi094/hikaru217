@@ -38,7 +38,7 @@ if (empty($tableInfo)) {
                     <td><?php echo $table['TABLE_COMMENT']; ?></td>
                     <td>
                         <i class="material-icons fsize20 actUpdateComment">edit</i>
-                        <i class="material-icons fsize20">description</i>
+                        <i class="material-icons fsize20 actShowTableDetail">description</i>
                     </td>
                 </tr>
                 <?php $seq++;?>
