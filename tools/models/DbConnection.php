@@ -1,6 +1,8 @@
 <?php
 namespace tools;
 
+use tools\config as config;
+
 /**
  * DB Connectionを管理するクラス
  * @copyright Copyright (C) 2014 Ispro. All Rights Reserved.
@@ -25,7 +27,7 @@ class DbConnection
 
     public function getConfig()
     {
-        $dbConfigFile = $_SERVER['DOCUMENT_ROOT'] . '/demo_yutenji' . '/json/db_connections.json';
+        $dbConfigFile = $_SERVER['DOCUMENT_ROOT'] . '/' . config::TOOLS_ROOT_DIRECTORY . '/json/db_connections.json';
         if (file_exists($dbConfigFile)) {
             $json = file_get_contents($dbConfigFile);
             $dbConnection = json_decode($json, true);
@@ -39,25 +41,36 @@ class DbConnection
     }
 
     /**
-     * テーブル情報を返却する
+     * queryを実行して結果を配列にして返却する
      *
+     * @param string $sql
      * @return array
      */
-    public function getTableInformation()
+    public function queryAllBySql(string $sql)
     {
         $pdo = new \PDO($this->dbConnectionString(), $this->userName, $this->password);
-        $sql = 'SELECT TABLE_TYPE, TABLE_NAME, ENGINE, TABLE_COMMENT'
-        . ' FROM INFORMATION_SCHEMA.TABLES'
-        . ' WHERE TABLE_SCHEMA=\'' . $this->dbName
-        . '\';';
-
         $sqlResult = $pdo->query($sql);
 
         $result = array();
         while ($row = $sqlResult->fetch(\PDO::FETCH_ASSOC)) {
             $result[] = $row;
         }
+        $pdo = null;
         return $result;
+    }
+
+    /**
+     * テーブル情報を返却する
+     *
+     * @return array
+     */
+    public function getTableInformation()
+    {
+        $sql = 'SELECT TABLE_TYPE, TABLE_NAME, ENGINE, TABLE_COMMENT'
+        . ' FROM INFORMATION_SCHEMA.TABLES'
+        . ' WHERE TABLE_SCHEMA=\'' . $this->dbName
+        . '\';';
+        return $this->queryAllBySql($sql);
     }
 
     /**

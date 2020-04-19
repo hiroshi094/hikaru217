@@ -1,4 +1,11 @@
-<?php include_once('components/common_header.php'); ?>
+<?php
+if (file_exists('../config.php') === false) {
+    header('Location: ..');
+    exit();
+}
+require_once('../config.php');
+include_once('components/common_header.php');
+ ?>
 
 <h1>Php Engineer Tools</h1>
 <ol>

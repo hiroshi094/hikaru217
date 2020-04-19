@@ -1,4 +1,5 @@
 <?php
+require_once('../config.php');
 require_once('models/DbConnection.php');
 
 use tools\DbConnection as DbConnection;
@@ -31,6 +32,7 @@ if ($dbConnection !== false) {
     $username = $dbConnection->getUserName();
     $password = $dbConnection->getPassword();
 }
+include_once('components/common_header.php');
 ?>
 <h1>データベース接続</h1>
 <form id="dbConnect" action="" method="POST">

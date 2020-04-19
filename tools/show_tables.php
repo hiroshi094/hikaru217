@@ -1,4 +1,5 @@
 <?php
+require_once('../config.php');
 require_once('models/DbConnection.php');
 
 use tools\DbConnection as DbConnection;
