@@ -60,7 +60,12 @@ function makeMdText(TableInformation $tableInfo, string $tableName)
 
     $text .= '### Create SQL statement' . "\n";
     $text .= '```' . "\n";
-    $text .= $createTable[0]["Create Table"];
+    $text .= $createTable[0]["Create Table"] . "\n";
+    $text .= '```' . "\n\n";
+
+    $text .= '### for Mock or Fixture' . "\n";
+    $text .= '```' . "\n";
+    $text .= makeForFixtureText($tableColumns) . "\n";
     $text .= '```' . "\n";
 
     return $text;
@@ -143,6 +148,34 @@ function makeIndexList(array $tableIndexes)
         $text .= $indexText;
         $seq++;
     }
+    return $text;
+}
+
+/**
+ * テーブルのfixture, Mock用の配列形式のテキストを生成して返却する
+ *
+ * @param array $tableColumns
+ * @return string
+ */
+function makeForFixtureText(array $tableColumns)
+{
+    $text = "'testFor' => [\n";
+    $maxFieldLength = 0;
+    foreach ($tableColumns as $column) {
+        if (strlen($column['Field']) > $maxFieldLength) {
+            $maxFieldLength = strlen($column['Field']);
+        }
+    }
+    foreach ($tableColumns as $column) {
+        $spaceLength = $maxFieldLength - strlen($column['Field']) + 1;
+        $columnText = "    '"
+            . $column['Field']
+            . str_pad("'", $spaceLength)
+            . " => '',"
+            . "\n";
+        $text .= $columnText;
+    }
+    $text .= "],\n";
     return $text;
 }
 
