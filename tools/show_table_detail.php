@@ -43,7 +43,7 @@ exit();
  */
 function makeMdText(TableInformation $tableInfo, string $tableName)
 {
-    $tableDescription = $tableInfo->getTableList()['wp_links']['TABLE_COMMENT'] ?? '';
+    $tableDescription = $tableInfo->getTableList()[$tableName]['TABLE_COMMENT'] ?? '';
     $tableColumns = $tableInfo->getTableColumns($tableName);
     $tableIndexes = $tableInfo->getTableIndexes($tableName);
     $createTable  = $tableInfo->getCreateTable($tableName);

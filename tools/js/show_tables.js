@@ -19,7 +19,7 @@ $(document).on('click', 'i.actUpdateComment', function(){
 
 $(document).on('click', 'i.actShowTableDetail', function(){
     var tableName = $(this).closest('tr').find('td:eq(1)').html();
-    var url = 'show_table_Detail.php?table_name=' +  tableName;
+    var url = 'show_table_detail.php?table_name=' +  tableName;
     window.open(url);
 });
 
