@@ -23,6 +23,25 @@ $(document).on('click', 'i.actShowTableDetail', function(){
     window.open(url);
 });
 
+$(document).on('change', '#tableNameFilter, #commentFilter', function(){
+    data = {
+        'nameFilter' :$('#tableNameFilter').val(),
+        'commentFilter' : $('#commentFilter').val(),
+    }
+    $.ajax({
+        type    : 'post',
+        url     : 'ajax/reset_table_list.php',
+        data    : data,
+        dataType:'json',
+        success : function(result){
+            $('.tableInfo tbody').html(result.tableBody);
+        },
+        error : function(result){
+        }
+    });
+    return false;
+});
+
 function makeInput(target) {
     var text =target.html();
     var inputHtml = '<input type="text" class="inputText" value="'

@@ -1,37 +1,37 @@
 <?php
 require_once('../config.php');
-require_once('models/DbConnection.php');
+require_once('models/TableInformation.php');
 
-use tools\DbConnection as DbConnection;
+use tools\TableInformation as TableInformation;
 
-$dbConnection = new DbConnection();
-if ($dbConnection === false) {
-    echo '<a href="db_connection.php">データベースに接続してください</a>';
-    exit();
-}
-
-$tableInfo = $dbConnection->getTableInformation();
-if (empty($tableInfo)) {
+$tableInfo = new TableInformation();
+$allTableList = $tableInfo->getAllTableList();
+if (empty($allTableList)) {
     echo 'テーブルがありません';
 }
 ?>
 <?php include_once('components/common_header.php'); ?>
 <link rel="stylesheet" type="text/css" href="css/show_table.css?<?php echo date('YmdGis', filemtime('css/show_table.css')); ?>">
 <script src="js/show_tables.js"></script>
+<div class="breadcrumbs">
+<a href="../">TOP</a> » <span>テーブル一覧</span></div>
 <h1>テーブル一覧</h1>
+<h2 class="blog"><a href='https://blog.yutenji.biz'>還暦過ぎたエンジニアの挑戦</a></h2>
+<div style="display:none;">Database Name : <?php echo $tableInfo->dbName; ?> </div>
+<div class="filterInfo">フィルタには % (任意の0文字以上の文字列) が使えます</div>
 <div class="tableInfo">
     <table>
         <thead>
             <tr>
                 <th>#</th>
-                <th>table name</th>
-                <th>table comment</th>
+                <th>table name <input type="text" id="tableNameFilter" style="width:110px;"></th>
+                <th>table comment <input type="text" id="commentFilter"></th>
                 <th>action</th>
             </tr>
         </thead>
         <tbody>
         <?php $seq=1; ?>
-            <?php foreach ($tableInfo as $table) : ?>
+            <?php foreach ($allTableList as $table) : ?>
                 <tr>
                     <td><?php echo $seq; ?></td>
                     <td><?php echo $table['TABLE_NAME']; ?></td>

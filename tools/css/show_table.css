@@ -38,3 +38,9 @@ i {
     display:inline-block;
     cursor: pointer;
 }
+
+.filterInfo {
+    margin-left:20px;
+    font-size: 0.8em;
+    color: #66f;
+}

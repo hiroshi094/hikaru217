@@ -18,16 +18,17 @@ class DbConnection
     /** @var string password */
     private $password;
 
+    /** @var bool hasError */
+    public $hasError;
+
     public function __construct()
     {
-        if ($this->getConfig() === false) {
-            return false;
-        }
+        $this->hasError = $this->getConfig() === false;
     }
 
     public function getConfig()
     {
-        $dbConfigFile = $_SERVER['DOCUMENT_ROOT'] . '/' . config::TOOLS_ROOT_DIRECTORY . '/json/db_connections.json';
+        $dbConfigFile = config::param()['documentRoot'] . 'json/db_connections.json';
         if (file_exists($dbConfigFile)) {
             $json = file_get_contents($dbConfigFile);
             $dbConnection = json_decode($json, true);
@@ -35,6 +36,11 @@ class DbConnection
             $this->dbName   = $dbConnection[0]['dbName'];
             $this->userName = $dbConnection[0]['username'];
             $this->password = $dbConnection[0]['password'];
+            try {
+                $pdo = new \PDO($this->dbConnectionString(), $this->userName, $this->password);
+            } catch (\PDOException $e) {
+                return false;
+            }
             return true;
         }
         return false;
@@ -60,33 +66,16 @@ class DbConnection
     }
 
     /**
-     * テーブル情報を返却する
+     * queryを実行して結果を配列にして返却する
      *
+     * @param string $sql
      * @return array
      */
-    public function getTableInformation()
-    {
-        $sql = 'SELECT TABLE_TYPE, TABLE_NAME, ENGINE, TABLE_COMMENT'
-        . ' FROM INFORMATION_SCHEMA.TABLES'
-        . ' WHERE TABLE_SCHEMA=\'' . $this->dbName
-        . '\';';
-        return $this->queryAllBySql($sql);
-    }
-
-    /**
-     * テーブルのコメントを更新する
-     *
-     * @param string $tableName
-     * @param string $tableComment
-     * @return boolean
-     */
-    public function updateTableComment(string $tableName, string $tableComment)
+    public function execute(string $sql)
     {
         $pdo = new \PDO($this->dbConnectionString(), $this->userName, $this->password);
         $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_SILENT);
 
-        $sql = 'SET sql_mode = \'\';';//SQL
-        $sql .= 'ALTER TABLE ' . $tableName . ' COMMENT \'' . $tableComment . '\';';
         $command = $pdo->prepare($sql);
         $result = $command->execute();
 

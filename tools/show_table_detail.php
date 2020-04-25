@@ -1,16 +1,8 @@
 <?php
 require_once('../config.php');
-require_once('models/DbConnection.php');
 require_once('models/TableInformation.php');
 
-use tools\DbConnection as DbConnection;
 use tools\TableInformation as TableInformation;
-
-$dbConnection = new DbConnection();
-if ($dbConnection === false) {
-    echo '<a href="db_connection.php">データベースに接続してください</a>';
-    exit();
-}
 
 if (isset($_GET['table_name'])) {
     $tableName = htmlspecialchars($_GET['table_name']);
@@ -20,7 +12,7 @@ if (isset($_GET['table_name'])) {
     exit();
 }
 
-$tableInfo = new TableInformation($dbConnection);
+$tableInfo = new TableInformation();
 
 if ($tableInfo->tableExists($tableName) === false) {
     echo 'テーブルがありません';
@@ -43,7 +35,7 @@ exit();
  */
 function makeMdText(TableInformation $tableInfo, string $tableName)
 {
-    $tableDescription = $tableInfo->getTableList()[$tableName]['TABLE_COMMENT'] ?? '';
+    $tableDescription = $tableInfo->getAllTableList()[$tableName]['TABLE_COMMENT'] ?? '';
     $tableColumns = $tableInfo->getTableColumns($tableName);
     $tableIndexes = $tableInfo->getTableIndexes($tableName);
     $createTable  = $tableInfo->getCreateTable($tableName);

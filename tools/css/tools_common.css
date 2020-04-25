@@ -5,5 +5,18 @@ body, table ,input {
 h1 {
     font-size:1.2em;
     margin-left:50px;
+    display:inline-block;
 }
-
+h2.blog {
+    display:inline-block;
+    margin-left:50px;
+    background: url("http://cdn.yutenji.biz/img/meta-icon.png") no-repeat;
+    background-size: 14px;
+    background-position: 0 3px;
+    padding-left: 20px;
+    height:20px;
+    font-size: 1em;
+}
+h2.blog a{
+    text-decoration: none;
+}

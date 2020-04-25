@@ -1,8 +1,8 @@
 <?php
 require_once('../../config.php');
-require_once('../models/DbConnection.php');
+require_once('../models/TableInformation.php');
 
-use tools\DbConnection as DbConnection;
+use tools\TableInformation as TableInformation;
 
 if (isset($_POST['tableName'], $_POST['tableComment'])) {
     $tableName = htmlspecialchars($_POST['tableName']);
@@ -19,9 +19,6 @@ exit();
 
 function updateTableComment(string $tableName, string $tableComment)
 {
-    $dbConnection = new DbConnection();
-    if ($dbConnection === false) {
-        return false;
-    }
-    return $dbConnection->updateTableComment($tableName, $tableComment);
+    $tableInfo = new TableInformation();
+    return $tableInfo->updateTableComment($tableName, $tableComment);
 }
