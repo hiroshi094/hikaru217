@@ -1,12 +1,14 @@
 # Php Engineer Tools hikaru217
 
-[<img src="https://cdn.yutenji.biz/img/meta-icon.png" style="width:100px;">](https://blog.yutenji.biz)   
+[<img src="https://cdn.yutenji.biz/img/meta-icon.png" style="width:100px;">](https://blog.yutenji.biz)     
+ブログ：[還暦過ぎたエンジニアの挑戦](https://blog.yutenji.biz)のリポジトリです  
 
-ブラウザ上で動かすPHPエンジニアのための開発用ツールです  
+ブラウザ上で動かすPHPエンジニアのための開発用ツールです。
+MySQL Workbench を補完してphpのコーディングを助けます。   
 
 ## Important!
 
-開発用時の便利ツールとして書いたものなので、ローカルな開発環境で使用してください。  
+開発時の便利ツールとして書いたものなので、ローカルな開発環境で使用してください。  
 決して公開サーバー上では使用しないでください  
 データベースの接続情報などが漏れる危険があります  
 
