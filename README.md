@@ -1,6 +1,8 @@
 # Php Engineer Tools hikaru217
 
-ブラウザ上で動かすPHPエンジニアのための開発用ツールです  <img src="//cdn.yutenji.biz/img/meta-icon.png">  
+<img src="https://cdn.yutenji.biz/img/meta-icon.png" style="width:100px;">   
+
+ブラウザ上で動かすPHPエンジニアのための開発用ツールです  
 
 ## Important!
 
@@ -10,11 +12,11 @@
 
 ## Usage
 
-ローカルマシンのDocumentRoot内にコピーしてアクセスしてください。    
+1. ローカルマシンのDocumentRoot内にコピーしてアクセスしてください。    
 `http://localhost/hikaru217`  
 
-最初にデータベース接続情報を入力してください  
-<img src="//cdn.yutenji.biz/img/hikaru217/series1_2.jpg" style="width:200px;">
+1. 最初にデータベース接続情報を入力してください  
+<img src="https://cdn.yutenji.biz/img/hikaru217/series1_2.jpg" style="width:200px;">
 
 ## File Map
 
