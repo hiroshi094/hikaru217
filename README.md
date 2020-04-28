@@ -16,7 +16,10 @@
 `http://localhost/hikaru217`  
 
 1. 最初にデータベース接続情報を入力してください  
-<img src="https://cdn.yutenji.biz/img/hikaru217/series1_2.jpg" style="width:200px;">
+<img src="https://cdn.yutenji.biz/img/hikaru217/series1_2.jpg" style="width:200px;">  
+
+1. 各テーブル毎の詳細情報を参照し、Markdown形式で保存することができます。  
+<img src="https://cdn.yutenji.biz/img/hikaru217/table_detail_md.jpg">  
 
 ## File Map
 
