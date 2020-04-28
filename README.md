@@ -3,7 +3,7 @@
 [<img src="https://cdn.yutenji.biz/img/meta-icon_x100.png">](https://blog.yutenji.biz)     
 ブログ：[還暦過ぎたエンジニアの挑戦](https://blog.yutenji.biz)のリポジトリです  
 
-ブラウザ上で動かすPHPエンジニアのための開発用ツールです。
+ブラウザ上で動かすPHPエンジニアのための開発用ツールです。  
 MySQL Workbench を補完してphpのコーディングを助けます。   
 
 ## Important!
